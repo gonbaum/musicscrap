@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    	<title>Table V01</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href=".{{ url_for('static', filename='images/icons/favicon.ico')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href=".{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href=".{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href=".{{ url_for('static', filename='vendor/animate/animate.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href=".{{ url_for('static', filename='vendor/select2/select2.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href=".{{ url_for('static', filename='vendor/perfect-scrollbar/perfect-scrollbar.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href=".{{url_for('static', filename='css/util1.css')}}">
+	<link rel="stylesheet" type="text/css" href=".{{url_for('static', filename='css/main1.css')}}">
+<!--===============================================================================================-->
+
+ 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>DataFrame Data</title>
+</head>
+<body>
+
+<script>
+</script>
+
+<h1>Results of search:</h1> 
+
+<div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100">
+{{data_frame | safe}}
+<tr>what</tr>
+
+			</div>
+			</div>
+		</div>
+	</div>
+
+
+<!--===============================================================================================-->	
+	<script src="./static/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="./static/vendor/bootstrap/js/popper.js"></script>
+	<script src="./static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="./static/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="./static/js/main.js"></script>
+</body>
+</html>
