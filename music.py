@@ -10,6 +10,9 @@ from pandas import DataFrame
 import numpy as np
 from flask import Flask,render_template, request
 
+from selenium.webdriver.chrome.options import Options
+chrome_options = Options()
+chrome_options.add_argument("--headless")
 
 pd.set_option('display.max_columns', None)
 pd.set_option("display.max_colwidth", 10000)
@@ -32,7 +35,7 @@ def query_api(songtitle, perfname):
     def BMI(input_name):
 
     #QUITAR COMENTARIOS PARA USAR ONLINE CUANDO TERMINE SCRAP
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome(chrome_options=chrome_options)
         driver.get("http://repertoire.bmi.com/StartPage.aspx")
         searchBar = driver.find_element_by_xpath("//input[@id='searchControl_txtSearchFor']")
         searchBar.send_keys(input_name)
