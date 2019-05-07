@@ -1,6 +1,4 @@
-import discogs_client, requests
-import json
-from pprint import pprint
+import requests
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
@@ -16,19 +14,12 @@ chrome_options.add_argument("--headless")
 
 pd.set_option('display.max_columns', None)
 pd.set_option("display.max_colwidth", 10000)
-ds = discogs_client.Client('DiscogSearch', user_token="NrcOYeNSFyqacKYaSSEfczPmHDBakpVjCygohXoX")
 
 songtitle = ""
 
 
 def query_api(songtitle, perfname):
   
-    #songtitle= input("Enter title: ")
-
-    
-    #perfname= input("Enter performer: ")
-    #att= input("Include alternate titles? Y or N: ")
-
     #BMI
     att='Y'
 
@@ -42,8 +33,6 @@ def query_api(songtitle, perfname):
         searchButton = driver.find_element_by_xpath("//*[@id='searchControl_btnSubmit']").click()
         searchButton = driver.find_element_by_xpath("//*[@id='btnSubmit']").click()
 
-        #driver.get("file:///c:/bmi.html")
-        #html = driver.get("file:///c:/bmi.html");
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')
 
@@ -51,7 +40,6 @@ def query_api(songtitle, perfname):
         writers = []
         source = []
 
-        #tableresults = soup.find('div', id = 'divWorksTable')
         tableresultstitles = soup.find_all('tr', class_='work-title-header')
         tableresultswriters = soup.find_all('div', class_='table-responsive')
 
@@ -60,7 +48,6 @@ def query_api(songtitle, perfname):
             worktitles = tr.find_all('td', class_='work_title')[0].get_text()
             titles.append(worktitles)
             
-
         #BUSQUEDA DE WRITERS
 
         for i in tableresultswriters:
@@ -177,28 +164,3 @@ def query_api(songtitle, perfname):
     test = pd.concat([dataframeascap, dataframebmi], axis=0, ignore_index=True, sort = False)
 
     return test
-
-#print(query_api('californication',''))
-
-    #DISCOGS
-    #results = ds.search(songtitle, type='release')
- 
-    #artist = results[0].artists[0]
-    #print(artist.name)
-    # print(results.page(1))
-
-
-
-
-
-
-
-
-#for p in json_data:
-	#print("{} {}".format(p, json_data[p]))
-       # print('Writer: ' + ["interestedParties"][p]["fullName"])
-        #print('Website: ' + p['website'])
-        #print('From: ' + p['from'])
-        #print('')
-
-#namerelease= input("Enter name of release: ")
