@@ -31,7 +31,7 @@ def query_api(songtitle, perfname):
         searchBar = driver.find_element_by_xpath("//input[@id='searchControl_txtSearchFor']")
         searchBar.send_keys(input_name)
         searchButton = driver.find_element_by_xpath("//*[@id='searchControl_btnSubmit']").click()
-        searchButton = driver.find_element_by_xpath("//*[@id='btnSubmit']").click()
+        #searchButton = driver.find_element_by_xpath("//*[@id='btnSubmit']").click()
 
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')
