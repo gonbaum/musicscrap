@@ -1,6 +1,9 @@
 import requests
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
@@ -27,11 +30,13 @@ def query_api(songtitle, perfname):
 
     #QUITAR COMENTARIOS PARA USAR ONLINE CUANDO TERMINE SCRAP
         driver = webdriver.Chrome(chrome_options=chrome_options)
+        delay = 3
         driver.get("http://repertoire.bmi.com/StartPage.aspx")
         searchBar = driver.find_element_by_xpath("//input[@id='searchControl_txtSearchFor']")
         searchBar.send_keys(input_name)
         searchButton = driver.find_element_by_xpath("//*[@id='searchControl_btnSubmit']").click()
-        #searchButton = driver.find_element_by_xpath("//*[@id='btnSubmit']").click()
+        WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.ID, 'btnSubmit')))
+        searchButton = driver.find_element_by_xpath("//*[@id='btnSubmit']").click()
 
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')

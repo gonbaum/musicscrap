@@ -3,7 +3,6 @@ bs4==0.0.1
 certifi==2019.3.9
 chardet==3.0.4
 Click==7.0
-discogs-client==2.2.2
 Flask==1.0.2
 idna==2.8
 itsdangerous==1.1.0
