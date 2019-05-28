@@ -11,14 +11,14 @@
     <div class="s01">
       <form method="POST" action="{{url_for('result')}}">
         <fieldset>
-          <legend>Search for music title or performer</legend>
+          <legend>Search for music release:</legend>
         </fieldset>
         <div class="inner-form">
           <div class="input-field first-wrap">
-            <input id="title" name="title" type="text" placeholder="Release Title" />
+            <input id="title" name="title" type="text" placeholder="Release Title (Required)" required/>
           </div>
           <div class="input-field second-wrap">
-            <input id="performer" name="performer" type="text" placeholder="Performer" />
+            <input id="performer" name="performer" type="text" placeholder="Performer (Optional)" />
           </div>
           <div class="input-field third-wrap">
             <button type="submit" class="btn-search">Search</button>

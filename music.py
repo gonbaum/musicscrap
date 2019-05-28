@@ -125,23 +125,23 @@ def query_api(songtitle, perfname):
             print ('Work Title: ' + results["workTitle"])
             titleascap.append(results["workTitle"])
 
-            local_array = []
+            local_array_w = []
             for interestedParties in results["interestedParties"]:
                 if interestedParties["roleCde"] == "W":
                     print ('Writer: ' + interestedParties["fullName"])
-                    local_array.append(interestedParties["fullName"])
+                    local_array_w.append(interestedParties["fullName"])
                 elif interestedParties["roleCde"] == "P":
                     print ('Other interested parties: ' + interestedParties["fullName"])
-            writerascap.append(local_array)
-                    
+            writerascap.append(local_array_w)
+            
+            local_array_p = []        
             if results["performers"] is None:
                 print ('Performers: -None-')
             else:
-                local_array = []
                 for performers in results["performers"]:
                     print ('Performers: ' + performers['fullName'])
-                    local_array.append(interestedParties["fullName"])
-            performerascap.append(local_array)
+                    local_array_p.append(performers["fullName"])
+            performerascap.append(local_array_p)
             print('\n')
 
     for names in range(len(titleascap)):
@@ -174,8 +174,8 @@ def query_api(songtitle, perfname):
                                     'Writers': returnascap[1], 'Performers': returnascap[2]
                                     })[cols2]
 
-    dataframe_ascap['Writers'] = dataframe_ascap['Writers'].str.title()
-    dataframe_ascap['Performers'] = dataframe_ascap['Performers'].str.title()
+    dataframe_ascap['Writers'] = dataframe_ascap['Writers'].astype(str).str.title()
+    dataframe_ascap['Performers'] = dataframe_ascap['Performers'].astype(str).str.title()
 
     print(dataframe_ascap)
 
