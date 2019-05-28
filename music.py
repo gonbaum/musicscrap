@@ -20,6 +20,12 @@ pd.set_option("display.max_colwidth", 10000)
 
 songtitle = ""
 
+def clean_names(names_list):
+    cleaned_names = []
+    for name in range(len(names_list)):
+        my_lst_str = ', '.join(map(str, names_list[name]))
+        cleaned_names.append(my_lst_str)
+    return cleaned_names
 
 def query_api(songtitle, perfname):
   
@@ -28,7 +34,6 @@ def query_api(songtitle, perfname):
 
     def BMI(input_name):
 
-    #QUITAR COMENTARIOS PARA USAR ONLINE CUANDO TERMINE SCRAP
         driver = webdriver.Chrome(chrome_options=chrome_options)
         delay = 3
         driver.get("http://repertoire.bmi.com/StartPage.aspx")
@@ -43,34 +48,39 @@ def query_api(songtitle, perfname):
 
         titles = []
         writers = []
-        source = []
+        result = []
+
 
         tableresultstitles = soup.find_all('tr', class_='work-title-header')
         tableresultswriters = soup.find_all('div', class_='table-responsive')
 
         #BUSQUEDA DE TITULOS
         for tr in tableresultstitles:
-            worktitles = tr.find_all('td', class_='work_title')[0].get_text()
+            worktitles = tr.find_all('td', class_='work_title')[0].get_text().title()
             titles.append(worktitles)
             
         #BUSQUEDA DE WRITERS
-
         for i in tableresultswriters:
             writersnames = i.find_all('a', href =re.compile('Catalog.aspx'))
-            
+
             local_array = []
             for a in writersnames:   
-                local_array.append(a.get_text())
+                local_array.append(a.get_text().title())
             writers.append(local_array)
-            
+
         print(titles)
         print(writers)
 
-        
-        return titles, writers
-    
-    returnbmi =(BMI(songtitle))
+        result.append(titles)
+        result.append(writers)
+        result[1] = clean_names(result[1])
 
+        return result
+    
+    returnbmi = BMI(songtitle)
+    
+
+    #ASCAP API search
 
     if perfname == "":
         
@@ -94,11 +104,9 @@ def query_api(songtitle, perfname):
 
         print('Searching for title(' + songtitle + '), performer name(' + perfname + ')...')
 
-
     writerascap = []
     performerascap = []
     titleascap = []
-
     json_data = ascap.json()
 
     if json_data['result'] is None:
@@ -135,9 +143,12 @@ def query_api(songtitle, perfname):
                     local_array.append(interestedParties["fullName"])
             performerascap.append(local_array)
             print('\n')
-                              
-    
-    
+
+    for names in range(len(titleascap)):
+        titleascap[names] = titleascap[names].title()
+
+    writerascap = clean_names(writerascap)
+    performerascap = clean_names(performerascap)
     returnascap = [titleascap, writerascap, performerascap]
     
     print(len(returnbmi[0]))
@@ -154,18 +165,21 @@ def query_api(songtitle, perfname):
     cols = ['Source', 'Titles', 'Writers']
     cols2 = ['Source', 'Titles', 'Writers', 'Performers' ]
 
-    dataframebmi = pd.DataFrame({ 'Source': 'BMI', 'Titles': returnbmi[0],
+    dataframe_bmi = pd.DataFrame({ 'Source': 'BMI', 'Titles': returnbmi[0],
                                 'Writers': returnbmi[1]
                                 })[cols]
-    print(dataframebmi)
+    print(dataframe_bmi)
 
-    
-    dataframeascap = pd.DataFrame({'Source': 'ASCAP', 'Titles': returnascap[0],
+    dataframe_ascap = pd.DataFrame({'Source': 'ASCAP', 'Titles': returnascap[0],
                                     'Writers': returnascap[1], 'Performers': returnascap[2]
                                     })[cols2]
-        
-    print(dataframeascap)
 
-    test = pd.concat([dataframeascap, dataframebmi], axis=0, ignore_index=True, sort = False)
+    dataframe_ascap['Writers'] = dataframe_ascap['Writers'].str.title()
+    dataframe_ascap['Performers'] = dataframe_ascap['Performers'].str.title()
 
-    return test
+    print(dataframe_ascap)
+
+    dataframe_complete = pd.concat([dataframe_ascap, dataframe_bmi], axis=0, ignore_index=True, sort = False)
+    dataframe_complete = dataframe_complete.fillna('-')
+
+    return dataframe_complete

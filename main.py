@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-from pprint import pprint as pp
 from flask import Flask, flash, redirect, render_template, request, url_for
+from flask_bootstrap import Bootstrap
 from music import query_api
 import pandas as pd
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 import time
 
 app = Flask(__name__)
+Bootstrap(app)
+
 @app.route('/')
 def index():
     return render_template(
@@ -22,15 +22,13 @@ def result():
     error = None
     title = 'form no funcionando'
     if request.method == 'POST':
-        title = request.form['title'] #De esta manera tomo datos del form con flask
+        title = request.form['title'] 
         performer = request.form['performer']
-        data = query_api(title, performer) #pido a la funcion query_api que busque los valores que le paso como args (select) y lo almaceno en resp
-                #pp(resp) #pretty print la respuesta
-                #if resp:
-        #data = resp #si hay respuesta, almacenarla en data[]
-    return render_template("result.html",  data_frame=data.to_html(classes='table100 table100-head'))  #render los resultados en el otro template
+        data = query_api(title, performer) 
+
+    return render_template("result.html",  data_frame=data.to_html(classes='table table-responsive table-striped', bold_rows=True).replace('border="1"','border="0"'))  #render los resultados en el otro template
     
-    #return render_template('result.html', data_frame=title)
+
 if __name__=='__main__':
     app.run(debug=True)
 

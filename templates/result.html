@@ -1,60 +1,24 @@
-<!DOCTYPE html>
-<html>
+{% extends "bootstrap/base.html" %}
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<head>
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    	<title>Table V01</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href=".{{ url_for('static', filename='images/icons/favicon.ico')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href=".{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href=".{{ url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href=".{{ url_for('static', filename='vendor/animate/animate.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href=".{{ url_for('static', filename='vendor/select2/select2.min.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href=".{{ url_for('static', filename='vendor/perfect-scrollbar/perfect-scrollbar.css')}}">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href=".{{url_for('static', filename='css/util1.css')}}">
-	<link rel="stylesheet" type="text/css" href=".{{url_for('static', filename='css/main1.css')}}">
-<!--===============================================================================================-->
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
- 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>DataFrame Data</title>
-</head>
-<body>
-
-<script>
-</script>
-
-<h1>Results of search:</h1> 
-
-<div class="limiter">
-		<div class="container-table100">
-			<div class="wrap-table100">
-				<div class="table100">
-{{data_frame | safe}}
-<tr>what</tr>
-
-			</div>
-			</div>
-		</div>
+{%block content%}
+<div style="background-color:#7A43B6" class="jumbotron">
+	<div class="container">
+		<h1 style="color:white;">Results of the search:</h1>
+		<p style="color:white;">Data searched in ASCAP and BMI databases</p> 
 	</div>
+</div>
+
+<div class="container">
+{{data_frame | safe}}
+</div>
 
 
-<!--===============================================================================================-->	
-	<script src="./static/vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-	<script src="./static/vendor/bootstrap/js/popper.js"></script>
-	<script src="./static/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="./static/vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-	<script src="./static/js/main.js"></script>
-</body>
-</html>
+{% endblock %}
