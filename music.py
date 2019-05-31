@@ -39,15 +39,17 @@ def query_api(songtitle, perfname):
         driver.get("http://repertoire.bmi.com/StartPage.aspx")
         searchBar = driver.find_element_by_xpath("//input[@id='searchControl_txtSearchFor']")
         searchBar.send_keys(input_name)
-        searchButton = driver.find_element_by_xpath("//*[@id='searchControl_btnSubmit']").click()
+        driver.find_element_by_xpath("//*[@id='searchControl_incArtists']").click()
+        driver.find_element_by_xpath("//*[@id='searchControl_btnSubmit']").click()
         WebDriverWait(driver, delay).until(EC.presence_of_element_located((By.ID, 'btnSubmit')))
-        searchButton = driver.find_element_by_xpath("//*[@id='btnSubmit']").click()
+        driver.find_element_by_xpath("//*[@id='btnSubmit']").click()
 
         html = driver.page_source
         soup = BeautifulSoup(html, 'html.parser')
 
         titles = []
         writers = []
+        artists = []
         result = []
 
 
@@ -61,19 +63,29 @@ def query_api(songtitle, perfname):
             
         #BUSQUEDA DE WRITERS
         for i in tableresultswriters:
-            writersnames = i.find_all('a', href =re.compile('Catalog.aspx'))
-
+            writersnames = i.find_all('a', href =re.compile('writerid'))
             local_array = []
             for a in writersnames:   
                 local_array.append(a.get_text().title())
             writers.append(local_array)
 
+        #BUSQUEDA DE ARTISTS
+        for i in tableresultswriters:
+            artistsnames = i.find_all('a', href =re.compile('artistid'))
+            local_array2 = []
+            for a in artistsnames:   
+                local_array2.append(a.get_text().title())
+            artists.append(local_array2)    
+
         print(titles)
         print(writers)
+        print(artists)
 
         result.append(titles)
         result.append(writers)
+        result.append(artists)
         result[1] = clean_names(result[1])
+        result[2] = clean_names(result[2])
 
         return result
     
@@ -155,6 +167,8 @@ def query_api(songtitle, perfname):
     print(returnbmi[0])
     print(len(returnbmi[1]))
     print(returnbmi[1])
+    print(len(returnbmi[2]))
+    print(returnbmi[2])
     print(len(returnascap[0]))
     print(returnascap[0])
     print(len(returnascap[1]))
@@ -162,11 +176,11 @@ def query_api(songtitle, perfname):
 
     #BUILDING DATAFRAME
 
-    cols = ['Source', 'Titles', 'Writers']
+    cols = ['Source', 'Titles', 'Writers', 'Performers']
     cols2 = ['Source', 'Titles', 'Writers', 'Performers' ]
 
     dataframe_bmi = pd.DataFrame({ 'Source': 'BMI', 'Titles': returnbmi[0],
-                                'Writers': returnbmi[1]
+                                'Writers': returnbmi[1], 'Performers': returnbmi[2]
                                 })[cols]
     print(dataframe_bmi)
 
