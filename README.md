@@ -9,8 +9,8 @@ To install dependencies:
 ## Install Chromedriver 
 
 Please download Chromedriver from https://sites.google.com/a/chromium.org/chromedriver/downloads and place it somewhere on your PATH
-This app was tested with:
 
+This app was tested with:
 Chrome: Versión 74.0.3729.169 (Build oficial) (64 bits)
 ChromeDriver 74.0.3729.6 https://chromedriver.storage.googleapis.com/index.html?path=74.0.3729.6/
 
